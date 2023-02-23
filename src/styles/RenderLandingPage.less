@@ -41,16 +41,41 @@
     font-size: 1.2rem;
 }
 
-// .graphs-section {
-//  ADD THIS BACK IN WHEN YOU HAVE THE GRAPHS SECTION
-// }
+.graphs-section {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.graphs-section div {
+    display: flex;
+    flex-direction: column;
+    font-family: "acumin";
+}
+
+.graphs-section img {
+    margin-bottom: 10%;
+    align-self: center;
+}
+
+.grant-rate-nationality-img img {
+    height: 10rem;
+    width: 12rem;
+}
+
+.grant-rate-office-img img, .grant-rate-over-time-img img {
+    height: 10rem;
+    width: 20rem;
+}
 
 .view-more-data-btn-container {
     height: 44px;
-    width: 180px;
-    margin: 0 auto;
+    width: 300px;
     text-align: center;
-    margin-bottom: 10%;
+    margin: 0 auto 10%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .middle-section {
@@ -75,9 +100,51 @@
     font-size: 1.4rem;
 }
 
-// .bottom-section {
-//      ADD THIS BACK IN WHEN YOU HAVE A BOTTOM SECTION
-// }
+.bottom-section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10%;
+    text-align: center;
+}
+
+.bottom-section h1 {
+    font-family: "moneta";
+    font-size: 3.5rem;
+    margin-bottom: 10%;
+}
+
+.bottom-section h2 {
+    font-family: "beatrice_regular";
+    font-size: 3rem;
+}
+
+.bottom-section button {
+    color: #1890ff;
+    text-decoration: none;
+    background-color: initial;
+    outline: none;
+    cursor: pointer;
+    transition: color .3s;
+}
+
+.bottom-section button {
+    background-color: rgb(64, 76, 74);
+    color: rgb(255, 255, 255);
+    width: 6.5rem;
+    height: 2rem;
+}
+
+.bottom-section-container {
+    display: flex;
+    justify-content: space-evenly;
+    font-family: "acumin";
+    font-size: 1.2rem;
+    margin-bottom: 5%;
+}
+
+.bottom-section-container div {
+    width: 433px;
+}
 
 .back-to-top {
     width: 8%;
@@ -85,6 +152,7 @@
     cursor: pointer;
     color: black;
     margin: 5% auto;
+    text-align: center;
 }
 
 .ant-space-align-center {

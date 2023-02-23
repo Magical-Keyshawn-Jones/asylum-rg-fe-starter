@@ -38,4 +38,3 @@ Submit the following in your course:
 
 - Link to your forked repo with the added code for the landing page
 - Link to a Loom video answering the prompt in the `Submit Your Deliverables` assignment in your course
-
