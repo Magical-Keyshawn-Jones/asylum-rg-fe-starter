@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import AllOfficesRoute from './AllOfficesRoute';
 import SingleOfficeRoute from './SingleOfficeRoute';
 import 'antd/dist/antd.css';
 import { Select } from 'antd';
 import { colors } from '../../../styles/data_vis_colors';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { setInitialData } from '../../../state/actionCreators';
 
 const { Option } = Select;
 const { background_color } = colors;
 
-function GraphsContainer() {
+function GraphsContainer(props) {
+  const { setInitialData } = props;
   const [view, set_view] = useState('time-series');
   const history = useHistory();
   const offices = [
@@ -25,6 +29,64 @@ function GraphsContainer() {
     'Miami, FL',
     'New Orleans, LA',
   ];
+
+  const currentYear = new Date().getFullYear();
+  let years = [2015, currentYear];
+
+  function updateStateWithNewData(years) {
+    /*
+          _                                                                             _
+        |                                                                                 |
+        |   Example request for once the `/summary` endpoint is up and running:           |
+        |                                                                                 |
+        |     `${url}/summary?to=2022&from=2015&office=ZLA`                               |
+        |                                                                                 |
+        |     so in axios we will say:                                                    |
+        |                                                                                 |     
+        |       axios.get(`${url}/summary`, {                                             |
+        |         params: {                                                               |
+        |           from: <year_start>,                                                   |
+        |           to: <year_end>,                                                       |
+        |           office: <office>,       [ <-- this one is optional! when    ]         |
+        |         },                        [ querying by `all offices` there's ]         |
+        |       })                          [ no `office` param in the query    ]         |
+        |                                                                                 |
+          _                                                                             _
+                                  -- Mack 
+    
+    */
+    let endpoints = [
+      'https://hrf-asylum-be-b.herokuapp.com/cases/fiscalSummary',
+      'https://hrf-asylum-be-b.herokuapp.com/cases/citizenshipSummary',
+    ];
+
+    axios
+      .all(
+        endpoints.map(endpoint =>
+          axios.get(endpoint, {
+            params: {
+              from: years[0],
+              to: years[1],
+            },
+          })
+        )
+      )
+      .then(
+        axios.spread(({ data: fiscal }, { data: citizen }) => {
+          fiscal['citizenshipResults'] = citizen;
+          setInitialData([fiscal]);
+        })
+      )
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  useEffect(() => {
+    updateStateWithNewData(years);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function handle_office_select(value) {
     if (view === 'office-heat-map') {
       set_view('time-series');
@@ -183,4 +245,4 @@ function GraphsContainer() {
   );
 }
 
-export default GraphsContainer;
+export default connect(null, { setInitialData })(GraphsContainer);

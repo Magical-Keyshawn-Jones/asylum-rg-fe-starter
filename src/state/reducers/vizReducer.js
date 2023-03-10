@@ -2,6 +2,7 @@ import {
   SET_VISUALIZATION_DATA,
   SET_HEAT_MAP_YEARS,
   RESET_VISUALIZATION_QUERY,
+  SET_INITIAL_DATA,
 } from '../actionTypes';
 
 /*
@@ -30,6 +31,7 @@ import {
 */
 const currentYear = new Date().getFullYear();
 export const initialState = {
+  allData: {},
   timeSeriesAllData: {},
   timeSeriesAllYears: [2015, currentYear],
   officeHeatMapData: {},
@@ -253,6 +255,12 @@ const vizReducer = (state = initialState, action) => {
           },
         };
       }
+    case SET_INITIAL_DATA: {
+      return {
+        ...state,
+        allData: action.payload.data,
+      };
+    }
     default:
       return state;
   }
